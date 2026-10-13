@@ -3,9 +3,21 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+//
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/about-us', function () {
+    $company = 'Hogeschool Rotterdam';
+
+    return view('about-us', [
+        'company' => $company,
+    ]);
+});
+
+Route::view('/contact', 'contact');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
