@@ -117,6 +117,26 @@ a {
     color: #a56e43;
 }
 
+.mc-nav form {
+    margin: 0;
+}
+
+.mc-nav-button,
+.mc-link-button {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #57505b;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 600;
+}
+
+.mc-nav-button:hover,
+.mc-link-button:hover {
+    color: #a56e43;
+}
+
 .mc-nav .mc-nav-cta {
     display: inline-flex;
     min-height: 44px;
@@ -586,6 +606,324 @@ a {
     line-height: 1.8;
 }
 
+.mc-catalog,
+.mc-detail,
+.mc-form-page {
+    min-height: 62vh;
+    padding: 54px 0 82px;
+}
+
+.mc-page-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 34px;
+}
+
+.mc-page-heading h1,
+.mc-form-page h1,
+.mc-detail h1 {
+    margin: 0;
+    color: var(--mc-ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(36px, 5vw, 54px);
+    font-weight: 400;
+    letter-spacing: -1.5px;
+}
+
+.mc-page-heading p:not(.mc-section-label),
+.mc-form-page > p:not(.mc-section-label) {
+    margin: 10px 0 0;
+    color: var(--mc-muted);
+}
+
+.mc-musical-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.mc-musical-card {
+    overflow: hidden;
+    border: 1px solid #ebe3d8;
+    border-radius: 5px;
+    background: #fffdf9;
+}
+
+.mc-musical-poster {
+    display: grid;
+    height: 220px;
+    place-items: center;
+    overflow: hidden;
+    background: linear-gradient(145deg, #39253c, #8b5b63);
+    color: var(--mc-gold);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 70px;
+    text-decoration: none;
+}
+
+.mc-musical-poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mc-musical-card-copy {
+    padding: 20px;
+}
+
+.mc-musical-card h2 {
+    margin: 7px 0 9px;
+    color: var(--mc-ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.mc-musical-card h2 a {
+    text-decoration: none;
+}
+
+.mc-musical-card-copy > p:not(.mc-musical-meta) {
+    min-height: 68px;
+    margin: 0 0 14px;
+    color: var(--mc-muted);
+    font-size: 14px;
+    line-height: 1.65;
+}
+
+.mc-musical-meta {
+    margin: 0;
+    color: var(--mc-muted);
+    font-size: 12px;
+}
+
+.mc-text-link,
+.mc-link-button {
+    color: #8c5b39;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.mc-text-link:hover,
+.mc-link-button:hover {
+    text-decoration: underline;
+}
+
+.mc-empty-state {
+    padding: 56px 25px;
+    border: 1px solid #ebe3d8;
+    background: #fffdf9;
+    text-align: center;
+}
+
+.mc-empty-state h2 {
+    color: var(--mc-ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 400;
+}
+
+.mc-empty-state p {
+    margin-bottom: 20px;
+    color: var(--mc-muted);
+}
+
+.mc-pagination {
+    margin-top: 28px;
+}
+
+.mc-status {
+    margin: 0 0 22px;
+    padding: 13px 16px;
+    border-left: 3px solid #7a8a5b;
+    background: #edf1e7;
+    color: #35442d;
+}
+
+.mc-form-page {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.mc-form {
+    display: grid;
+    gap: 10px;
+    margin-top: 28px;
+}
+
+.mc-form label,
+.mc-review-edit label {
+    margin-top: 8px;
+    color: var(--mc-ink);
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.mc-form input,
+.mc-form select,
+.mc-form textarea,
+.mc-review-edit select,
+.mc-review-edit textarea {
+    width: 100%;
+    padding: 12px 13px;
+    border: 1px solid #d9d0c5;
+    border-radius: 3px;
+    background: #fffdf9;
+    color: var(--mc-ink);
+    font: inherit;
+}
+
+.mc-form input[type="file"] {
+    padding: 9px;
+}
+
+.mc-form-actions,
+.mc-inline-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    margin-top: 14px;
+}
+
+.mc-inline-actions form,
+.mc-review-delete {
+    margin: 0;
+}
+
+.mc-field-error {
+    color: #a12b39;
+    font-size: 13px;
+}
+
+.mc-form-poster {
+    width: min(100%, 230px);
+    margin-top: 12px;
+}
+
+.mc-detail > .mc-text-link {
+    display: inline-block;
+    margin-bottom: 30px;
+}
+
+.mc-detail-heading {
+    display: grid;
+    grid-template-columns: minmax(210px, 0.65fr) 1.35fr;
+    align-items: start;
+    gap: 38px;
+    padding: 34px;
+    border: 1px solid #ebe3d8;
+    background: #fffdf9;
+}
+
+.mc-detail-poster {
+    width: 100%;
+    max-height: 430px;
+    object-fit: cover;
+}
+
+.mc-poster-placeholder {
+    display: grid;
+    min-height: 300px;
+    place-items: center;
+    background: linear-gradient(145deg, #39253c, #8b5b63);
+    color: var(--mc-gold);
+    font-size: 75px;
+}
+
+.mc-detail-heading .mc-section-label {
+    margin-top: 4px;
+}
+
+.mc-detail-description {
+    margin: 23px 0;
+    color: var(--mc-muted);
+    line-height: 1.8;
+    white-space: pre-line;
+}
+
+.mc-reviews {
+    max-width: 850px;
+    margin: 70px auto 0;
+}
+
+.mc-reviews h2 {
+    margin: 0;
+    color: var(--mc-ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 34px;
+    font-weight: 400;
+}
+
+.mc-review {
+    margin-top: 18px;
+    padding: 22px;
+    border: 1px solid #ebe3d8;
+    background: #fffdf9;
+}
+
+.mc-review-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.mc-review-heading > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.mc-review-heading time {
+    color: var(--mc-muted);
+    font-size: 12px;
+}
+
+.mc-review-rating {
+    color: #a56e43;
+    letter-spacing: 2px;
+}
+
+.mc-review > p,
+.mc-empty-review,
+.mc-login-prompt {
+    color: var(--mc-muted);
+    line-height: 1.7;
+    white-space: pre-line;
+}
+
+.mc-review-edit {
+    display: grid;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.mc-review-delete {
+    margin-top: 12px;
+}
+
+.mc-review-form {
+    margin-top: 38px;
+    padding: 25px;
+    border: 1px solid #ebe3d8;
+    background: #f7f1e8;
+}
+
+.mc-review-form h3 {
+    margin: 0 0 6px;
+    color: var(--mc-ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 25px;
+    font-weight: 400;
+}
+
+.mc-login-prompt a {
+    color: #8c5b39;
+    font-weight: 700;
+}
+
 a:focus-visible {
     outline: 3px solid #c58c52;
     outline-offset: 4px;
@@ -608,6 +946,10 @@ a:focus-visible {
         gap: 35px;
         padding-right: 6%;
         padding-left: 6%;
+    }
+
+    .mc-musical-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .mc-highlights {
@@ -656,6 +998,10 @@ a:focus-visible {
         padding: 0 11px;
     }
 
+    .mc-nav {
+        flex-wrap: wrap;
+    }
+
     .mc-hero {
         grid-template-columns: 1fr;
         gap: 0;
@@ -702,6 +1048,40 @@ a:focus-visible {
         grid-template-columns: 1fr;
         gap: 16px;
         padding: 65px 4px 27px;
+    }
+
+    .mc-catalog,
+    .mc-detail,
+    .mc-form-page {
+        padding: 38px 0 55px;
+    }
+
+    .mc-page-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        margin-bottom: 25px;
+    }
+
+    .mc-musical-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mc-musical-poster {
+        height: 245px;
+    }
+
+    .mc-detail-heading {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 22px;
+    }
+
+    .mc-detail-poster {
+        max-height: 370px;
+    }
+
+    .mc-reviews {
+        margin-top: 45px;
     }
 
     .mc-intro-copy {

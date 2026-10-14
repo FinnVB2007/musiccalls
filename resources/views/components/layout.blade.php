@@ -30,15 +30,20 @@
         </a>
 
         <nav class="mc-nav" aria-label="Hoofdnavigatie">
-            <a href="/" aria-current="page">Home</a>
-            <a href="/about-us">Over ons</a>
-            <a class="mc-nav-cta" href="/contact">
-                Neem contact op
-                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                    <path d="M4 10h12m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
-                          stroke-linejoin="round"/>
-                </svg>
-            </a>
+            <a href="{{ route('home') }}">Home</a>
+            <a href="{{ route('musicals.index') }}">Musicals</a>
+            <a href="{{ route('about-us') }}">Over ons</a>
+            @auth
+                <a href="{{ route('dashboard') }}">Dashboard</a>
+                <a href="{{ route('musicals.create') }}">Musical plaatsen</a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button class="mc-nav-button" type="submit">Uitloggen</button>
+                </form>
+            @else
+                <a href="{{ route('login') }}">Inloggen</a>
+                <a class="mc-nav-cta" href="{{ route('register') }}">Registreren</a>
+            @endauth
         </nav>
     </header>
 
@@ -47,7 +52,7 @@
     </main>
 
     <footer class="mc-footer">
-        <a class="mc-footer-brand" href="/">Musical Calls</a>
+        <a class="mc-footer-brand" href="{{ route('home') }}">Musical Calls</a>
         <p>Voor iedereen die het liefst nog even blijft zitten als het doek valt.</p>
         <span>&copy; {{ now()->year }} Musical Calls</span>
     </footer>
