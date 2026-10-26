@@ -1,5 +1,10 @@
 <x-layout title="Dashboard | Musical Calls">
     <section class="py-12 sm:py-16">
+        @if (session('status'))
+            <p class="mb-6 rounded-lg border border-[#d5e3cb] bg-[#edf1e7] px-4 py-3 text-sm font-medium text-[#35442d]"
+               role="status">{{ session('status') }}</p>
+        @endif
+
         <div
             class="overflow-hidden rounded-2xl bg-gradient-to-br from-[#21172a] via-[#302139] to-[#4a3046] px-6 py-10 text-[#fffaf3] shadow-xl shadow-[#21172a]/10 sm:px-10 sm:py-14">
             <p class="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-[#e9bd70]">Jouw plek achter de schermen</p>
@@ -81,5 +86,113 @@
                 </a>
             </div>
         </div>
+
+        <section class="mt-14" aria-labelledby="my-musicals-title">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                    <p class="mb-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#a56e43]">Jouw bijdragen</p>
+                    <h2 id="my-musicals-title" class="font-serif text-3xl font-normal tracking-tight text-[#21172a]">
+                        Mijn musicals</h2>
+                </div>
+                <a class="inline-flex min-h-10 items-center justify-center rounded-md bg-[#21172a] px-4 py-2 text-sm font-bold text-[#fffaf3] transition hover:bg-[#392a40] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c58c52]"
+                   href="{{ route('musicals.create') }}">Nieuwe musical</a>
+            </div>
+
+            @if ($musicals->isEmpty())
+                <p class="mt-5 rounded-xl border border-dashed border-[#d9d0c5] bg-white/70 p-6 text-sm text-[#716975]">
+                    Je hebt nog geen musicals geplaatst.
+                </p>
+            @else
+                <div class="mt-5 grid gap-4">
+                    @foreach ($musicals as $musical)
+                        <article
+                            class="rounded-xl border border-[#ebe3d8] bg-white/80 p-5 sm:flex sm:items-center sm:justify-between sm:gap-6">
+                            <div>
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <span
+                                        class="rounded-full bg-[#f0e7da] px-3 py-1 text-xs font-semibold text-[#8c5b39]">{{ $musical->genre->name }}</span>
+                                    <span
+                                        class="rounded-full px-3 py-1 text-xs font-semibold {{ $musical->is_published ? 'bg-[#edf1e7] text-[#35442d]' : 'bg-[#f3e9e7] text-[#8a443c]' }}">
+                                        {{ $musical->is_published ? 'Online' : 'Offline' }}
+                                    </span>
+                                </div>
+                                <h3 class="mt-3 font-serif text-xl text-[#21172a]">
+                                    <a class="hover:text-[#8c5b39] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c58c52]"
+                                       href="{{ route('musicals.show', $musical) }}">{{ $musical->title }}</a>
+                                </h3>
+                            </div>
+                            <div class="mt-4 flex flex-wrap items-center gap-4 sm:mt-0">
+                                <a class="text-sm font-bold text-[#8c5b39] hover:underline"
+                                   href="{{ route('musicals.edit', $musical) }}">Bewerken</a>
+                                <form method="POST" action="{{ route('musicals.visibility.update', $musical) }}">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button class="text-sm font-bold text-[#8c5b39] hover:underline" type="submit">
+                                        {{ $musical->is_published ? 'Offline zetten' : 'Weer online zetten' }}
+                                    </button>
+                                </form>
+                                <form method="POST" action="{{ route('musicals.destroy', $musical) }}"
+                                      onsubmit="return confirm('Weet je zeker dat je deze musical wilt verwijderen?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="text-sm font-bold text-[#a12b39] hover:underline" type="submit">
+                                        Verwijderen
+                                    </button>
+                                </form>
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
+                <div class="mt-5 [&_a]:text-[#8c5b39] [&_svg]:text-[#8c5b39]">
+                    {{ $musicals->links() }}
+                </div>
+            @endif
+        </section>
+
+        <section class="mt-14" aria-labelledby="my-reviews-title">
+            <div>
+                <p class="mb-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#a56e43]">Jouw ervaringen</p>
+                <h2 id="my-reviews-title" class="font-serif text-3xl font-normal tracking-tight text-[#21172a]">Mijn
+                    reviews</h2>
+            </div>
+
+            @if ($reviews->isEmpty())
+                <p class="mt-5 rounded-xl border border-dashed border-[#d9d0c5] bg-white/70 p-6 text-sm text-[#716975]">
+                    Je hebt nog geen reviews geschreven.
+                </p>
+            @else
+                <div class="mt-5 grid gap-4">
+                    @foreach ($reviews as $review)
+                        <article class="rounded-xl border border-[#ebe3d8] bg-white/80 p-5">
+                            <div class="flex flex-wrap items-start justify-between gap-3">
+                                <div>
+                                    <p class="text-xs font-semibold uppercase tracking-wide text-[#8c5b39]">{{ $review->musical->title }}</p>
+                                    <p class="mt-1 text-sm font-semibold text-[#a56e43]"
+                                       aria-label="{{ $review->rating }} van de 5 sterren">
+                                        {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}
+                                    </p>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <a class="text-sm font-bold text-[#8c5b39] hover:underline"
+                                       href="{{ route('reviews.edit', $review) }}">Bewerken</a>
+                                    <form method="POST" action="{{ route('reviews.destroy', $review) }}"
+                                          onsubmit="return confirm('Weet je zeker dat je deze review wilt verwijderen?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="text-sm font-bold text-[#a12b39] hover:underline" type="submit">
+                                            Verwijderen
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            <p class="mt-3 whitespace-pre-line text-sm leading-6 text-[#716975]">{{ $review->body }}</p>
+                        </article>
+                    @endforeach
+                </div>
+                <div class="mt-5 [&_a]:text-[#8c5b39] [&_svg]:text-[#8c5b39]">
+                    {{ $reviews->links() }}
+                </div>
+            @endif
+        </section>
     </section>
 </x-layout>
