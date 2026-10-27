@@ -92,7 +92,7 @@
                 <div>
                     <p class="mb-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#a56e43]">Jouw bijdragen</p>
                     <h2 id="my-musicals-title" class="font-serif text-3xl font-normal tracking-tight text-[#21172a]">
-                        Mijn musicals</h2>
+                        {{ auth()->user()->is_admin ? 'Alle musicals' : 'Mijn musicals' }}</h2>
                 </div>
                 <a class="inline-flex min-h-10 items-center justify-center rounded-md bg-[#21172a] px-4 py-2 text-sm font-bold text-[#fffaf3] transition hover:bg-[#392a40] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c58c52]"
                    href="{{ route('musicals.create') }}">Nieuwe musical</a>
@@ -120,6 +120,9 @@
                                     <a class="hover:text-[#8c5b39] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c58c52]"
                                        href="{{ route('musicals.show', $musical) }}">{{ $musical->title }}</a>
                                 </h3>
+                                @if (auth()->user()->is_admin)
+                                    <p class="mt-1 text-sm text-[#716975]">Geplaatst door {{ $musical->user->name }}</p>
+                                @endif
                             </div>
                             <div class="mt-4 flex flex-wrap items-center gap-4 sm:mt-0">
                                 <a class="text-sm font-bold text-[#8c5b39] hover:underline"
@@ -152,8 +155,8 @@
         <section class="mt-14" aria-labelledby="my-reviews-title">
             <div>
                 <p class="mb-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#a56e43]">Jouw ervaringen</p>
-                <h2 id="my-reviews-title" class="font-serif text-3xl font-normal tracking-tight text-[#21172a]">Mijn
-                    reviews</h2>
+                <h2 id="my-reviews-title" class="font-serif text-3xl font-normal tracking-tight text-[#21172a]">
+                    {{ auth()->user()->is_admin ? 'Alle reviews' : 'Mijn reviews' }}</h2>
             </div>
 
             @if ($reviews->isEmpty())
@@ -167,6 +170,10 @@
                             <div class="flex flex-wrap items-start justify-between gap-3">
                                 <div>
                                     <p class="text-xs font-semibold uppercase tracking-wide text-[#8c5b39]">{{ $review->musical->title }}</p>
+                                    @if (auth()->user()->is_admin)
+                                        <p class="mt-1 text-xs text-[#716975]">Geschreven
+                                            door {{ $review->user->name }}</p>
+                                    @endif
                                     <p class="mt-1 text-sm font-semibold text-[#a56e43]"
                                        aria-label="{{ $review->rating }} van de 5 sterren">
                                         {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}

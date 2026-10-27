@@ -21,6 +21,10 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Test User', 'password' => 'password'],
         );
 
+        if (config('admin.email') && config('admin.password')) {
+            $this->call(AdminUserSeeder::class);
+        }
+
         $now = now();
         $genres = ['Classic', 'Comedy', 'Drama', 'Fantasy', 'Historical', 'Jukebox'];
 

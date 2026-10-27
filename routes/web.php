@@ -3,6 +3,8 @@
 use App\Http\Controllers\MusicalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
+use App\Models\Musical;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,16 +24,16 @@ Route::view('/contact', 'contact');
 
 Route::get('/dashboard', function (Request $request) {
     $user = $request->user();
+    $musicals = $user->is_admin
+        ? Musical::query()->with(['genre', 'user'])->latest()->paginate(5, ['*'], 'musicalsPage')
+        : $user->musicals()->with('genre')->latest()->paginate(5, ['*'], 'musicalsPage');
+    $reviews = $user->is_admin
+        ? Review::query()->with(['musical', 'user'])->latest()->paginate(5, ['*'], 'reviewsPage')
+        : $user->reviews()->with(['musical', 'user'])->latest()->paginate(5, ['*'], 'reviewsPage');
 
     return view('dashboard', [
-        'musicals' => $user->musicals()
-            ->with('genre')
-            ->latest()
-            ->paginate(5, ['*'], 'musicalsPage'),
-        'reviews' => $user->reviews()
-            ->with('musical')
-            ->latest()
-            ->paginate(5, ['*'], 'reviewsPage'),
+        'musicals' => $musicals,
+        'reviews' => $reviews,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
