@@ -35,7 +35,9 @@
             <a href="{{ route('about-us') }}">Over ons</a>
             @auth
                 <a href="{{ route('dashboard') }}">Dashboard</a>
-                <a href="{{ route('musicals.create') }}">Musical plaatsen</a>
+                @if (auth()->user()->hasWrittenEnoughReviewsToPostMusical())
+                    <a href="{{ route('musicals.create') }}">Musical plaatsen</a>
+                @endif
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button class="mc-nav-button" type="submit">Uitloggen</button>

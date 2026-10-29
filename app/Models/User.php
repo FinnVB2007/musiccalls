@@ -15,6 +15,8 @@ use Illuminate\Notifications\Notifiable;
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
+    public const REQUIRED_REVIEWS_TO_POST_MUSICAL = 3;
+
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
@@ -26,6 +28,11 @@ class User extends Authenticatable
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function hasWrittenEnoughReviewsToPostMusical(): bool
+    {
+        return $this->reviews()->count() >= self::REQUIRED_REVIEWS_TO_POST_MUSICAL;
     }
 
     /**

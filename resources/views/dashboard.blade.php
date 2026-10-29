@@ -48,6 +48,7 @@
                     </span>
                 </a>
 
+                @if (auth()->user()->hasWrittenEnoughReviewsToPostMusical())
                 <a class="group rounded-xl border border-[#ebe3d8] bg-white/80 p-6 transition hover:-translate-y-1 hover:border-[#d9c4a6] hover:shadow-lg hover:shadow-[#35273c]/[0.06] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c58c52]"
                    href="{{ route('musicals.create') }}">
                     <span
@@ -65,6 +66,17 @@
                         <span class="transition group-hover:translate-x-1" aria-hidden="true">→</span>
                     </span>
                 </a>
+                @else
+                    <div class="rounded-xl border border-[#ebe3d8] bg-white/80 p-6">
+                        <h3 class="font-serif text-xl text-[#21172a]">Schrijf eerst 3 reviews</h3>
+                        <p class="mt-2 text-sm leading-6 text-[#716975]">
+                            Je hebt er {{ auth()->user()->reviews()->count() }} van de 3 geschreven.
+                            Daarna kun je zelf een musical delen.
+                        </p>
+                        <a class="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#8c5b39]"
+                           href="{{ route('musicals.index') }}">Bekijk musicals en schrijf een review</a>
+                    </div>
+                @endif
 
                 <a class="group rounded-xl border border-[#ebe3d8] bg-white/80 p-6 transition hover:-translate-y-1 hover:border-[#d9c4a6] hover:shadow-lg hover:shadow-[#35273c]/[0.06] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c58c52]"
                    href="{{ route('profile.edit') }}">
@@ -94,8 +106,10 @@
                     <h2 id="my-musicals-title" class="font-serif text-3xl font-normal tracking-tight text-[#21172a]">
                         {{ auth()->user()->is_admin ? 'Alle musicals' : 'Mijn musicals' }}</h2>
                 </div>
-                <a class="inline-flex min-h-10 items-center justify-center rounded-md bg-[#21172a] px-4 py-2 text-sm font-bold text-[#fffaf3] transition hover:bg-[#392a40] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c58c52]"
-                   href="{{ route('musicals.create') }}">Nieuwe musical</a>
+                @if (auth()->user()->hasWrittenEnoughReviewsToPostMusical())
+                    <a class="inline-flex min-h-10 items-center justify-center rounded-md bg-[#21172a] px-4 py-2 text-sm font-bold text-[#fffaf3] transition hover:bg-[#392a40] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c58c52]"
+                       href="{{ route('musicals.create') }}">Nieuwe musical</a>
+                @endif
             </div>
 
             @if ($musicals->isEmpty())
