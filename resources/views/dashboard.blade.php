@@ -1,4 +1,4 @@
-<x-layout title="Dashboard | Musical Calls">
+<x-layout :title="$isAdminView ? 'Beheer | Musical Calls' : 'Dashboard | Musical Calls'">
     <section class="py-12 sm:py-16">
         @if (session('status'))
             <p class="mb-6 rounded-lg border border-[#d5e3cb] bg-[#edf1e7] px-4 py-3 text-sm font-medium text-[#35442d]"
@@ -7,7 +7,9 @@
 
         <div
             class="overflow-hidden rounded-2xl bg-gradient-to-br from-[#21172a] via-[#302139] to-[#4a3046] px-6 py-10 text-[#fffaf3] shadow-xl shadow-[#21172a]/10 sm:px-10 sm:py-14">
-            <p class="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-[#e9bd70]">Jouw plek achter de schermen</p>
+            <p class="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-[#e9bd70]">
+                {{ $isAdminView ? 'Beheerdersgedeelte' : 'Jouw plek achter de schermen' }}
+            </p>
             <h1 class="max-w-3xl font-serif text-4xl font-normal leading-tight tracking-tight sm:text-5xl">
                 Welkom terug, <span class="text-[#e9bd70]">{{ auth()->user()->name }}</span>
             </h1>
@@ -23,6 +25,12 @@
                           stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </a>
+            @if (auth()->user()->is_admin)
+                <a class="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[#f2d9a5] underline-offset-4 hover:underline"
+                   href="{{ route($isAdminView ? 'dashboard' : 'admin.dashboard') }}">
+                    {{ $isAdminView ? 'Naar mijn dashboard' : 'Naar het beheerdersgedeelte' }}
+                </a>
+            @endif
         </div>
 
         <div class="mt-10">
@@ -102,9 +110,11 @@
         <section class="mt-14" aria-labelledby="my-musicals-title">
             <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                    <p class="mb-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#a56e43]">Jouw bijdragen</p>
+                    <p class="mb-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#a56e43]">
+                        {{ $isAdminView ? 'Communitybeheer' : 'Jouw bijdragen' }}
+                    </p>
                     <h2 id="my-musicals-title" class="font-serif text-3xl font-normal tracking-tight text-[#21172a]">
-                        {{ auth()->user()->is_admin ? 'Alle musicals' : 'Mijn musicals' }}</h2>
+                        {{ $isAdminView ? 'Alle musicals' : 'Mijn musicals' }}</h2>
                 </div>
                 @if (auth()->user()->hasWrittenEnoughReviewsToPostMusical())
                     <a class="inline-flex min-h-10 items-center justify-center rounded-md bg-[#21172a] px-4 py-2 text-sm font-bold text-[#fffaf3] transition hover:bg-[#392a40] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c58c52]"
@@ -114,7 +124,7 @@
 
             @if ($musicals->isEmpty())
                 <p class="mt-5 rounded-xl border border-dashed border-[#d9d0c5] bg-white/70 p-6 text-sm text-[#716975]">
-                    Je hebt nog geen musicals geplaatst.
+                    {{ $isAdminView ? 'Er zijn nog geen musicals geplaatst.' : 'Je hebt nog geen musicals geplaatst.' }}
                 </p>
             @else
                 <div class="mt-5 grid gap-4">
@@ -134,7 +144,7 @@
                                     <a class="hover:text-[#8c5b39] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c58c52]"
                                        href="{{ route('musicals.show', $musical) }}">{{ $musical->title }}</a>
                                 </h3>
-                                @if (auth()->user()->is_admin)
+                                @if ($isAdminView)
                                     <p class="mt-1 text-sm text-[#716975]">Geplaatst door {{ $musical->user->name }}</p>
                                 @endif
                             </div>
@@ -143,7 +153,6 @@
                                    href="{{ route('musicals.edit', $musical) }}">Bewerken</a>
                                 <form method="POST" action="{{ route('musicals.visibility.update', $musical) }}">
                                     @csrf
-                                    @method('PATCH')
                                     <button class="text-sm font-bold text-[#8c5b39] hover:underline" type="submit">
                                         {{ $musical->is_published ? 'Offline zetten' : 'Weer online zetten' }}
                                     </button>
@@ -168,14 +177,16 @@
 
         <section class="mt-14" aria-labelledby="my-reviews-title">
             <div>
-                <p class="mb-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#a56e43]">Jouw ervaringen</p>
+                <p class="mb-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#a56e43]">
+                    {{ $isAdminView ? 'Communitybeheer' : 'Jouw ervaringen' }}
+                </p>
                 <h2 id="my-reviews-title" class="font-serif text-3xl font-normal tracking-tight text-[#21172a]">
-                    {{ auth()->user()->is_admin ? 'Alle reviews' : 'Mijn reviews' }}</h2>
+                    {{ $isAdminView ? 'Alle reviews' : 'Mijn reviews' }}</h2>
             </div>
 
             @if ($reviews->isEmpty())
                 <p class="mt-5 rounded-xl border border-dashed border-[#d9d0c5] bg-white/70 p-6 text-sm text-[#716975]">
-                    Je hebt nog geen reviews geschreven.
+                    {{ $isAdminView ? 'Er zijn nog geen reviews geschreven.' : 'Je hebt nog geen reviews geschreven.' }}
                 </p>
             @else
                 <div class="mt-5 grid gap-4">
@@ -184,7 +195,7 @@
                             <div class="flex flex-wrap items-start justify-between gap-3">
                                 <div>
                                     <p class="text-xs font-semibold uppercase tracking-wide text-[#8c5b39]">{{ $review->musical->title }}</p>
-                                    @if (auth()->user()->is_admin)
+                                    @if ($isAdminView)
                                         <p class="mt-1 text-xs text-[#716975]">Geschreven
                                             door {{ $review->user->name }}</p>
                                     @endif
